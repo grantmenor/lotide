@@ -29,27 +29,25 @@ const eqArrays = function(array1, array2) {
 };
 
 
+const without = function(source, itemsToRemove) {
 
-const middle = function(array) {
-  let middleElements = [];
-
-  
-  if (array.length <= 2) {
-    return [];
-  } else if (array.length % 2 === 0) {
-    // even
-    let evenMiddle = [array[(array.length) / 2 - 1], array[(array.length / 2)]];
-    return evenMiddle;
-  } else {
-    // odd
-    let oddMiddle = [Math.floor((array.length / 2)) + 1]
-    return oddMiddle;
+  for (let i = 0; i < itemsToRemove.length; i++) {
+    for (let j = 0; j < source.length; j++) {
+      if (source[j] === itemsToRemove[i]) {
+        source.splice(j, 1);
+      }
+    }
   }
-}
 
-assertArraysEqual(middle([1]), []); // => []
-assertArraysEqual(middle([1, 2]), []); // => []
-assertArraysEqual(middle([1, 2, 3]), [2]); // => [2]
-assertArraysEqual(middle([1, 2, 3, 4, 5]), [3]); // => [3]
-assertArraysEqual(middle([1, 2, 3, 4]), [2, 3]); // => [2, 3]
-assertArraysEqual(middle([1, 2, 3, 4, 5, 6]), [3, 4]); // => [3, 4]
+  return source;
+};
+
+
+assertArraysEqual(without([1, 2, 3], [1]), [2, 3]); // => [2, 3]
+assertArraysEqual(without(["1", "2", "3"], [1, 2, "3"]), ["1", "2"]); // => ["1", "2"]
+
+
+const words = ["hello", "world", "lighthouse"];
+without(["hello", "world", "lighthouse"], ["lighthouse"]); // no need to capture return value for this test case
+// Make sure the original array was not altered by the without function
+assertArraysEqual(words, ["hello", "world", "lighthouse"]);
